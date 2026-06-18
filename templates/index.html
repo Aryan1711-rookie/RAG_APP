@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smriti.AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="logo">Smriti.ai</div>
+        <a href="/chat" class="nav-btn">Launch Assistant</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">AI-Powered Retrieval Assistant</span>
+            <h1>
+                Chat With Your Documents
+                <span>Instantly</span>
+            </h1>
+            <p>
+                Upload PDFs and text files, build a private knowledge base,
+                and get accurate answers using Retrieval-Augmented Generation.
+            </p>
+            <div class="hero-buttons">
+                <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                    <label class="upload-box">
+                        <input type="file" name="file" accept=".pdf,.txt" required>
+                        <span>📂 Choose Document</span>
+                    </label>
+                    <button type="submit" class="upload-btn">Upload & Index</button>
+                </form>
+                <a href="/chat" class="chat-btn">Open AI Chat →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h3>Fast Retrieval</h3>
+            <p>Semantic search powered by vector embeddings.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Context Aware</h3>
+            <p>LLM responses grounded in your documents.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Private Knowledge</h3>
+            <p>Your documents remain isolated and secure.</p>
+        </div>
+    </section>
+
+    <section class="knowledge-base">
+        <h2>Knowledge Base</h2>
+        <ul>
+            {% for file, chunks in files.items() %}
+            <li>{{ file }} ({{ chunks }} chunks)</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</body>
+</html>

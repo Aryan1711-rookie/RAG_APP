@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smriti.AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">Smriti.ai</div>
+
+        <button class="new-chat" onclick="location.reload()">+ New Chat</button>
+
+        <!-- <div class="chat-history">
+            <div class="history-item">Transformer Paper</div>
+            <div class="history-item">Research Notes</div>
+            <div class="history-item">Uploaded PDFs</div>
+        </div> -->
+
+        <!-- <div class="loaded-docs">
+            <h3>Loaded Documents</h3>
+            <ul>
+            {% for file, chunks in files.items() %}
+                <li>{{ file }}</li>
+            {% endfor %}
+            </ul>
+        </div> -->
+
+    </aside>
+
+    <!-- Main -->
+    <main class="chat-container">
+
+        <div id="chat-box" class="chat-box">
+
+            <!-- Welcome Screen -->
+            <div class="welcome">
+                <h1>What can I help with?</h1>
+                <p>Ask questions about your uploaded documents.</p>
+            </div>
+
+        </div>
+
+        <!-- Input -->
+        <div class="input-wrapper">
+            <div class="input-container">
+                <input
+                    type="text"
+                    id="question"
+                    placeholder="Message Smriti..."
+                    onkeydown="if(event.key==='Enter') askQuestion()">
+                <button onclick="askQuestion()">➜</button>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Loader Overlay -->
+<div id="loader" class="loader-container">
+    <div class="spinner"></div>
+    <p>Processing document...</p>
+</div>
+
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
+</body>
+</html>

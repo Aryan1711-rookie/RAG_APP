@@ -1,0 +1,56 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables
+.env
+
+# ChromaDB / Vector Store
+chroma/
+chromadb/
+data/vector_store/
+
+# Uploaded Documents
+data/pdf/
+uploads/
+
+# Model Files
+models/
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Hugging Face Cache
+.cache/
+huggingface/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build
+build/
+dist/
+*.egg-info/
