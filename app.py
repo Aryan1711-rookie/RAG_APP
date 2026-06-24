@@ -57,7 +57,8 @@ def home():
 
 @app.route("/chat")
 def chat():
-
+    if "session_id" not in session:
+        session["session_id"] = str(uuid.uuid4())
     files = vector_store.get_document_summary()
 
     history = (
