@@ -115,9 +115,15 @@ def upload():
 
     file = request.files["file"]
 
-    save_path = f"data/pdf/{file.filename}"
+    UPLOAD_FOLDER = "data/pdf"
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    
+    save_path = os.path.join(
+        UPLOAD_FOLDER,
+        file.filename
+    )
 
-    file.save(save_path)
+file.save(save_path)
 
     with open(save_path, "rb") as f:
         file_hash = hashlib.md5(
