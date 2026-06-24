@@ -24,25 +24,36 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 app = Flask(__name__)
+print("Flask app created")
 app.secret_key = os.getenv("SECRET_KEY")
 #vector_store = VectorStore() // for chromadb
 
 from vector_db.supabase_store import (
     SupabaseVectorStore
 )
+print("Creating EmbeddingManager...")
 embedding_manager = EmbeddingManager()
+print("EmbeddingManager created")
+
+print("Creating SupabaseVectorStore...")
 vector_store = SupabaseVectorStore()
+print("SupabaseVectorStore created")
+
 ingestion_pipeline = IngestionPipeline(embedding_manager=embedding_manager)
 pdf_loader = PDFLoader()
 
 
 
+print("Creating Retriever...")
 retriever = RAGRetriever(
     vector_store,
     embedding_manager
 )
+print("Retriever created")
 
+print("Creating GroqClient...")
 llm = GroqClient()
+print("GroqClient created")
 
 @app.route("/")
 def home():
