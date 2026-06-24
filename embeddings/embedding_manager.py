@@ -11,7 +11,7 @@ class EmbeddingManager:
         self.model_name = model_name
         self.model = None
 
-        self._load_model()
+        # self._load_model()
     
     def _load_model(self):
         """Load embedding model."""
