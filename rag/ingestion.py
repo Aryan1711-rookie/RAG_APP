@@ -14,17 +14,17 @@ class IngestionPipeline:
     2. Generating embeddings
     """
 
-    def __init__(self, chunk_size: int = 1000, chunk_overlap: int = 200, embedding_model: str = "BAAI/bge-base-en-v1.5"):
+    def __init__(self, embedding_manager, chunk_size: int = 1000, chunk_overlap: int = 200):
         
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap
         )
 
-        self.embedding_manager = EmbeddingManager(
-            model_name = embedding_model
-        )
-
+        # self.embedding_manager = EmbeddingManager(
+        #     model_name = embedding_model
+        # )
+        self.embedding_manager = embedding_manager
     def chunk_documents(self,documents: List[Document]) -> List[Document]:
         """
         Split documents into smaller chunks.

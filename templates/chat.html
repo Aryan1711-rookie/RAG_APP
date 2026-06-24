@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 </head>
 <body>
 
@@ -18,22 +20,54 @@
 
         <div class="logo">Smriti.ai</div>
 
-        <button class="new-chat" onclick="location.reload()">+ New Chat</button>
+        <button class="new-chat" onclick="window.location.href='/new-chat'">New Chat</button>
+        <button class="new-chat" onclick="window.location.href='/'">Upload File</button>
+        <div class="loaded-docs">
+            <h3>Knowledge Base</h3>
+            <div class="docs-list">
+        {% for file, chunks in files.items() %}
+            <div class="doc-item">
+                📄 {{ file }}
+                <span>{{ chunks }} chunks</span>
+            </div>
+        {% endfor %}
+    </div>
+        </div>
+        <div class="chat-history">
+            <h3> Recents</h3>
+               <div class="history-scroll">
 
-        <!-- <div class="chat-history">
-            <div class="history-item">Transformer Paper</div>
-            <div class="history-item">Research Notes</div>
-            <div class="history-item">Uploaded PDFs</div>
-        </div> -->
+{% for chat in history %}
+<div class="history-item">
 
-        <!-- <div class="loaded-docs">
-            <h3>Loaded Documents</h3>
-            <ul>
-            {% for file, chunks in files.items() %}
-                <li>{{ file }}</li>
-            {% endfor %}
-            </ul>
-        </div> -->
+    <a
+        href="/chat/{{ chat.id }}"
+        class="chat-link"
+    >
+        {{ chat.title }}
+    </a>
+
+    <form
+        action="/delete-chat/{{ chat.id }}"
+        method="POST"
+        class="delete-form"
+    >
+        <button
+            type="submit"
+            class="delete-btn"
+            onclick="return confirm('Delete this chat?')"
+        >
+            🗑
+        </button>
+    </form>
+
+</div>
+{% endfor %}
+
+</div>
+        </div>
+
+        
 
     </aside>
 
@@ -42,13 +76,38 @@
 
         <div id="chat-box" class="chat-box">
 
-            <!-- Welcome Screen -->
-            <div class="welcome">
-                <h1>What can I help with?</h1>
-                <p>Ask questions about your uploaded documents.</p>
+    {% if messages %}
+
+        {% for msg in messages %}
+
+        <div class="message {{ msg.role }}">
+
+            <div class="avatar">
+                {% if msg.role == "user" %}
+                    👤
+                {% else %}
+                    👾
+                {% endif %}
+            </div>
+
+            <div class="bubble">
+                {{ msg.content }}
             </div>
 
         </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="welcome">
+            <h1>What can I help with?</h1>
+            <p>Ask questions about your uploaded documents.</p>
+        </div>
+
+    {% endif %}
+
+</div>
 
         <!-- Input -->
         <div class="input-wrapper">

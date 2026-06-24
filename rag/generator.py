@@ -9,6 +9,23 @@ def rag_pipeline(
     min_score: float = 0.2,
     return_context: bool = False
 ) -> Dict[str, Any]:
+    
+    # print("QUERY RECEIVED:", query)
+    query_lower = query.lower().strip()
+
+    greetings = [
+        "hi",
+        "hello",
+        "hey",
+        "how are you"
+    ]
+
+    if query_lower in greetings:
+        return {
+            "answer": "Hi, how are you today? Is there something I can help you with or would you like to chat?",
+            "sources": [],
+            "confidence": 1.0
+        }
 
     results = retriever.retrieve(
         query=query,
@@ -60,11 +77,16 @@ def rag_pipeline(
     )
 
     prompt = f"""
-You are a helpful RAG assistant.
+You are Smriti.AI.
 
-Use ONLY the provided context.
+If the question is a greeting, casual conversation,
+or does not require document retrieval,
+answer naturally.
 
-If the answer cannot be found in the context,
+Use the provided context ONLY when it is relevant
+to answering the question.
+
+If the context does not contain the answer,
 say so clearly.
 
 Context:

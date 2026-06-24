@@ -7,13 +7,58 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .spinner-overlay.active {
+            display: flex;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner-label {
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 
 <body>
 
     <div class="background-glow"></div>
 
+    <!-- Spinner overlay -->
+    <div class="spinner-overlay" id="spinnerOverlay">
+        <div class="spinner"></div>
+        <span class="spinner-label">Uploading & indexing…</span>
+    </div>
+
     <nav class="navbar">
+        {% if error %}
+        <div class="alert-banner">
+            <span>⚠️ {{ error }}</span>
+            <button onclick="this.parentElement.remove()">✕</button>
+        </div>
+        {% endif %}
         <div class="logo">Smriti.ai</div>
         <a href="/chat" class="nav-btn">Launch Assistant</a>
     </nav>
@@ -30,10 +75,10 @@
                 and get accurate answers using Retrieval-Augmented Generation.
             </p>
             <div class="hero-buttons">
-                <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form" id="uploadForm">
                     <label class="upload-box">
-                        <input type="file" name="file" accept=".pdf,.txt" required>
-                        <span>📂 Choose Document</span>
+                        <input id="fileInput" type="file" name="file" accept=".pdf,.txt" required>
+                        <span id="filename">📂 Choose Document</span>
                     </label>
                     <button type="submit" class="upload-btn">Upload & Index</button>
                 </form>
@@ -66,5 +111,15 @@
         </ul>
     </section>
 
+    <script>
+        document.getElementById("fileInput").addEventListener("change", function () {
+            const filename = this.files.length > 0 ? this.files[0].name : "📂 Choose Document";
+            document.getElementById("filename").textContent = filename;
+        });
+
+        document.getElementById("uploadForm").addEventListener("submit", function () {
+            document.getElementById("spinnerOverlay").classList.add("active");
+        });
+    </script>
 </body>
 </html>
