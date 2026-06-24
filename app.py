@@ -123,7 +123,7 @@ def upload():
         file.filename
     )
 
-file.save(save_path)
+    file.save(save_path)
 
     with open(save_path, "rb") as f:
         file_hash = hashlib.md5(
